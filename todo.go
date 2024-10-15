@@ -46,3 +46,22 @@ func (todos *Todos) delete(index int) error {
 
 	return nil
 }
+
+func (todos *Todos) toggle(index int) error {
+	t := *todos
+
+	if err := todos.validateIndex(index); err != nil {
+		return err
+	}
+
+	isCompleted := t[index].Completed
+
+	if !isCompleted {
+		completionTime := time.Now()
+		t[index].CompletedAt = &completionTime
+	}
+
+	t[index].Completed = !isCompleted
+
+	return nil
+}
